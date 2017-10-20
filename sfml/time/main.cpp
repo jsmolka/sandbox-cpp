@@ -25,5 +25,7 @@ int main()
     std::cout << t4.asSeconds() << std::endl;
     std::cout << t4.asMilliseconds() << std::endl;
     std::cout << t4.asMicroseconds() << std::endl;
+
+    return 0;
 };
 
