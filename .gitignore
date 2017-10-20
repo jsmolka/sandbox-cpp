@@ -1,0 +1,11 @@
+# User-specific stuff:
+.idea/
+
+# CMake
+cmake-build-debug/
+CMakeLists.txt
+
+# Compiled files
+*.exe
+*.so
+*.a
