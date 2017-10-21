@@ -28,15 +28,15 @@ int main() {
     // Recreate window
     int count = 0;
     window.create(sf::VideoMode(800, 600), "Yet another window");
-    while(window.isOpen())  // Keep window open
+    while (window.isOpen())  // Keep window open
     {
         count++;
         cout << "Current frame: " << count << endl;
 
         sf::Event event;  // Get all triggered events since the last loop
-        while(window.pollEvent(event))
+        while (window.pollEvent(event))
         {
-            if(event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed)
                 window.close();  // Close window at close request
         }
     }
