@@ -24,9 +24,11 @@ int main() {
         Snake snake(WIDTH, HEIGHT, SCALE);
         bool print_score = true;
 
-        while (!sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+        while (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        {
             sf::Event event;
-            while (window.pollEvent(event)) {
+            while (window.pollEvent(event))
+            {
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -39,13 +41,17 @@ int main() {
                     snake.setDirection(west);
             }
 
-            if (!snake.gameOver()) {
+            if (!snake.gameOver())
+            {
                 window.clear();
                 snake.move();
                 window.draw(snake);
                 window.display();
-            } else {
-                if (print_score) {
+            }
+            else
+            {
+                if (print_score)
+                {
                     std::cout << "Game Over" << std::endl;
                     std::cout << "Score " << snake.getScore() << std::endl;
                     std::cout << "Press R to start a new game!" << std::endl;
