@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <cmath>
 #include "constants.hpp"
 #include <SFML/Graphics.hpp>
@@ -21,24 +22,26 @@ std::vector<Point> myPoints(NUM_POINTS);
 std::vector<Spring> mySprings(NUM_SPRINGS);
 float pressure;
 bool mousePressed = false;
+float mouseX;
+float mouseY;
 
 /* Define setup functions */
 void addSpring(int i, int j, int k)
 {
     mySprings[i].spring1 = j;
     mySprings[i].spring2 = k;
-    mySprings[i].length = sqrtf(  // TODO: Square instead of multiplying (pow?)
-            (myPoints[j].x - myPoints[k].x) * (myPoints[j].x - myPoints[k].x) +
-            (myPoints[j].y - myPoints[k].y) * (myPoints[j].y - myPoints[k].y)
+    mySprings[i].length = sqrtf(
+        powf(myPoints[j].x - myPoints[k].x, 2) +
+        powf(myPoints[j].y - myPoints[k].y, 2)
     );
 }
 
 void createBall()
 {
-    for (int i = 0; i < NUM_POINTS; i++)  // TODO: Fix types of constants
+    for (int i = 0; i < NUM_POINTS; i++)
     {
-        myPoints[i].x = BALL_RADIUS * (float)cos(i * 2 * PI / NUM_POINTS) + WIDTH / 2;
-        myPoints[i].y = BALL_RADIUS * (float)sin(i * 2 * PI / NUM_POINTS) + HEIGHT / 4;
+        myPoints[i].x = BALL_RADIUS * cosf(i * 2 * PI / NUM_POINTS) + WIDTH / 2;
+        myPoints[i].y = BALL_RADIUS * sinf(i * 2 * PI / NUM_POINTS) + HEIGHT / 4;
     }
     for (int i = 0; i < NUM_POINTS - 1; i++)
     {
@@ -69,11 +72,11 @@ void accumulateForces()
     {
         x1 = myPoints[0].x;
         y1 = myPoints[0].y;
-        x2 = sf::Mouse::getPosition().x;
-        y2 = sf::Mouse::getPosition().y;
+        x2 = mouseX;
+        y2 = mouseY;
 
-        r12d = (float)sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-        f = (float)(r12d - 2.2) * 22 + (myPoints[0].vx * (x1 - x2) + myPoints[0].vy * (y1 - y2)) * 54 / r12d;
+        r12d = sqrtf(powf(x2 - x1, 2) + powf(y2 - y1, 2));
+        f = (r12d - 2.2f) * 22 + (myPoints[0].vx * (x1 - x2) + myPoints[0].vy * (y1 - y2)) * 54 / r12d;
 
         fx0 = ((x1 - x2) / r12d ) * f;
         fy0 = ((y1 - y2) / r12d ) * f;
@@ -123,7 +126,7 @@ void accumulateForces()
 
 		r12d = sqrtf((x1 - x2) *(x1 - x2)  +  (y1 - y2) * (y1 - y2));
 
-		volume += 0.5 * abs(x1 - x2) * abs(mySprings[i].nx) * (r12d);
+		volume += 0.5 * fabsf(x1 - x2) * fabsf(mySprings[i].nx) * (r12d);
 	}
 
 	for (int i = 0; i < NUM_SPRINGS; i++)
@@ -135,7 +138,7 @@ void accumulateForces()
 
 		r12d = sqrtf((x1 - x2) * (x1 - x2)  +  (y1 - y2) * (y1 - y2));
 
-		pressurev = r12d * pressure * (1.0 / volume);
+		pressurev = r12d * pressure * (1.f / volume);
 
 		myPoints[mySprings[i].spring1].fx += mySprings[i].nx * pressurev;
 		myPoints[mySprings[i].spring1].fy += mySprings[i].ny *pressurev;
@@ -161,14 +164,50 @@ void integrateHeun()
 		vysaved[i] = myPoints[i].vy;
 
 		myPoints[i].vx += myPoints[i].fx / MASS * DT;
-		drx = myPoints[i].vx * DT;
+		myPoints[i].vy += myPoints[i].fy / MASS * DT;
+
+        drx = myPoints[i].vx * DT;
+        dry = myPoints[i].vy * DT;
 
 		myPoints[i].x += drx;
-
-		myPoints[i].vy += myPoints[i].fy / MASS * DT;
-		dry = myPoints[i].vy * DT;
-
 		myPoints[i].y += dry;
+
+        // Boundary checking
+        myPoints[i].x = std::min(myPoints[i].x, WIDTH/2.f + RADIUS);
+		myPoints[i].x = std::max(myPoints[i].x, WIDTH/2.f - RADIUS);
+
+		myPoints[i].y = std::min(myPoints[i].y, HEIGHT/2.f + RADIUS);
+		myPoints[i].y = std::max(myPoints[i].y, HEIGHT/2.f - RADIUS);
+
+		if (myPoints[i].x + drx >  sqrtf(R2 - powf(myPoints[i].y - HEIGHT / 2.f, 2)) + WIDTH / 2. ||
+			myPoints[i].x + drx < -sqrtf(R2 - powf(myPoints[i].y - HEIGHT / 2.f, 2)) + WIDTH / 2.)
+		{
+			float vx0 = myPoints[i].vx;
+			float vy0 = myPoints[i].vy;
+
+            drx *= -1;
+			dry *= -1;
+
+			float sinTheta = (myPoints[i].y - HEIGHT / 2.f) / RADIUS;
+			float cosTheta = (myPoints[i].x - WIDTH / 2.f) / RADIUS;
+
+			myPoints[i].vx = -vx0;
+			myPoints[i].vy = -vy0;
+			myPoints[i].vx = vy0 * (-TDF * sinTheta * cosTheta - NDF * sinTheta * cosTheta) + vx0 * (TDF * sinTheta * sinTheta - NDF * cosTheta * cosTheta);
+			myPoints[i].vy = vy0 * (TDF * cosTheta * cosTheta - NDF * sinTheta * sinTheta) + vx0 * (-TDF * sinTheta * cosTheta - NDF * sinTheta * cosTheta);
+		}
+
+		if (myPoints[i].y > HEIGHT / 2.f + RADIUS / 2.f)
+			myPoints[i].y = std::min(myPoints[i].y,  sqrtf(fabsf(R2 - powf(myPoints[i].x - WIDTH / 2.f, 2))) + HEIGHT / 2.f);
+
+		if (myPoints[i].y < HEIGHT / 2.f - RADIUS / 2.f)
+            myPoints[i].y = std::max(myPoints[i].y, -sqrtf(fabsf(R2 - powf(myPoints[i].x - WIDTH / 2.f, 2))) + HEIGHT / 2.f);
+
+		if (myPoints[i].x > WIDTH / 2.f + RADIUS / 2.f)
+			myPoints[i].x = std::min(myPoints[i].x,  sqrtf(fabsf(R2 - powf(myPoints[i].y - HEIGHT / 2.f, 2))) + WIDTH / 2.f);
+
+		if (myPoints[i].x < WIDTH / 2.f - RADIUS / 2.f)
+			myPoints[i].x = std::max(myPoints[i].x, -sqrtf(fabsf(R2 - powf(myPoints[i].y - HEIGHT / 2.f, 2))) + WIDTH / 2.f);
 	}
 
 	accumulateForces();
@@ -176,13 +215,12 @@ void integrateHeun()
 	for (int i=0; i<NUM_POINTS; i++)
     {
 		myPoints[i].vx = vxsaved[i] + (myPoints[i].fx + fxsaved[i]) / MASS * DT / 2;
-		drx = myPoints[i].vx * DT;
+        myPoints[i].vy = vysaved[i] + (myPoints[i].fy + fysaved[i]) / MASS * DT / 2;
+
+        drx = myPoints[i].vx * DT;
+        dry = myPoints[i].vy * DT;
 
 		myPoints[i].x += drx;
-
-		myPoints[i].vy = vysaved[i] + (myPoints[i].fy + fysaved[i]) / MASS * DT / 2;
-		dry = myPoints[i].vy * DT;
-
 		myPoints[i].y += dry;
 	}
 }
@@ -193,20 +231,28 @@ void update()
     integrateHeun();
 
     if (pressure < FINAL_PRESSURE)
-		pressure += FINAL_PRESSURE / 300.;
+		pressure += FINAL_PRESSURE / 300.f;
 }
 
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Soft Body");
-    createBall();
-    sf::ConvexShape shape;
+    window.setFramerateLimit(100);
+
+    sf::ConvexShape shape(NUM_POINTS);
     shape.setFillColor(sf::Color::Red);
+
+    sf::CircleShape circle;
+    circle.setPointCount(200);
+    circle.setRadius(RADIUS);
+    circle.setPosition(WIDTH / 2 - RADIUS, HEIGHT / 2 - RADIUS);
+
+    createBall();
 
     while (window.isOpen())
     {
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
@@ -217,9 +263,21 @@ int main()
                 mousePressed = false;
         }
 
-        for (int i = 0; i < NUM_POINTS; i++)
+        // Update mouse position
+        if (mousePressed)
+        {
+            mouseX = sf::Mouse::getPosition(window).x;
+            mouseY = sf::Mouse::getPosition(window).y;
+        }
+
+        // Update ball
+        update();
+        for (size_t i = 0; i < NUM_POINTS; i++)
             shape.setPoint(i, sf::Vector2f(myPoints[i].x, myPoints[i].y));
+
+        // Draw ball
         window.clear();
+        window.draw(circle);
         window.draw(shape);
         window.display();
     }
