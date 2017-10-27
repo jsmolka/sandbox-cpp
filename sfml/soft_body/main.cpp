@@ -1,4 +1,3 @@
-#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include "constants.hpp"
@@ -171,6 +170,20 @@ void integrateHeun()
 
 		myPoints[i].x += drx;
 		myPoints[i].y += dry;
+    }
+
+    accumulateForces();
+
+    for (int i = 0; i < NUM_POINTS; i++)
+    {
+		myPoints[i].vx = vxsaved[i] + (myPoints[i].fx + fxsaved[i]) / MASS * DT / 2;
+        myPoints[i].vy = vysaved[i] + (myPoints[i].fy + fysaved[i]) / MASS * DT / 2;
+
+        drx = myPoints[i].vx * DT;
+        dry = myPoints[i].vy * DT;
+
+		myPoints[i].x += drx;
+		myPoints[i].y += dry;
 
         // Boundary checking
         myPoints[i].x = std::min(myPoints[i].x, WIDTH/2.f + RADIUS);
@@ -184,9 +197,6 @@ void integrateHeun()
 		{
 			float vx0 = myPoints[i].vx;
 			float vy0 = myPoints[i].vy;
-
-            drx *= -1;
-			dry *= -1;
 
 			float sinTheta = (myPoints[i].y - HEIGHT / 2.f) / RADIUS;
 			float cosTheta = (myPoints[i].x - WIDTH / 2.f) / RADIUS;
@@ -209,20 +219,6 @@ void integrateHeun()
 		if (myPoints[i].x < WIDTH / 2.f - RADIUS / 2.f)
 			myPoints[i].x = std::max(myPoints[i].x, -sqrtf(fabsf(R2 - powf(myPoints[i].y - HEIGHT / 2.f, 2))) + WIDTH / 2.f);
 	}
-
-	accumulateForces();
-
-	for (int i=0; i<NUM_POINTS; i++)
-    {
-		myPoints[i].vx = vxsaved[i] + (myPoints[i].fx + fxsaved[i]) / MASS * DT / 2;
-        myPoints[i].vy = vysaved[i] + (myPoints[i].fy + fysaved[i]) / MASS * DT / 2;
-
-        drx = myPoints[i].vx * DT;
-        dry = myPoints[i].vy * DT;
-
-		myPoints[i].x += drx;
-		myPoints[i].y += dry;
-	}
 }
 
 void update()
@@ -234,11 +230,10 @@ void update()
 		pressure += FINAL_PRESSURE / 300.f;
 }
 
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Soft Body");
-    window.setFramerateLimit(100);
+    window.setFramerateLimit(120);
 
     sf::ConvexShape shape(NUM_POINTS);
     shape.setFillColor(sf::Color::Red);
@@ -263,24 +258,21 @@ int main()
                 mousePressed = false;
         }
 
-        // Update mouse position
         if (mousePressed)
         {
             mouseX = sf::Mouse::getPosition(window).x;
             mouseY = sf::Mouse::getPosition(window).y;
         }
 
-        // Update ball
+        update();
         update();
         for (size_t i = 0; i < NUM_POINTS; i++)
             shape.setPoint(i, sf::Vector2f(myPoints[i].x, myPoints[i].y));
 
-        // Draw ball
         window.clear();
         window.draw(circle);
         window.draw(shape);
         window.display();
     }
-
     return 0;
 }
