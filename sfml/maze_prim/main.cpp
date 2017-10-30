@@ -13,6 +13,7 @@ const unsigned int COL_COUNT_WITH_WALLS = 2 * COL_COUNT + 1;
 const unsigned int BLACK = 0;
 const unsigned int MARKED = 1;
 const unsigned int WHITE = 2;
+vector<sf::Vector2f> draw;
 vector<vector<unsigned int>> maze;
 vector<sf::Vector2f> frontier;
 
@@ -55,6 +56,7 @@ int main()
     first.x = 2 * (rand() % ROW_COUNT) + 1;
     first.y = 2 * (rand() % COL_COUNT) + 1;
     maze[first.x][first.y] = WHITE;
+    draw.emplace_back(first);
 
     // Generate frontier for initial coordinates
     for (auto &func : dir_two) {
@@ -88,6 +90,8 @@ int main()
                 {
                     sf::Vector2f between = dir_one[i](cell);
                     maze[cell.x][cell.y] = maze[between.x][between.y] = WHITE;
+                    draw.emplace_back(cell);
+                    draw.emplace_back(between);
                     break;
                 }
             }
@@ -105,18 +109,12 @@ int main()
         }
 
         // Draw maze
-        for (int i = 0; i < ROW_COUNT_WITH_WALLS; i++)
-        {
-            for (int j = 0; j < COL_COUNT_WITH_WALLS; j++)
-            {
-                if (maze[i][j] == WHITE)
-                {
-                    sf::RectangleShape rect(sf::Vector2f(SCALE, SCALE));
-                    rect.setPosition(i * SCALE, j * SCALE);
-                    rect.setFillColor(sf::Color::White);
-                    window.draw(rect);
-                }
-            }
+        for (auto &cell : draw) {
+            sf::RectangleShape rect;
+            rect.setPosition(cell.x * SCALE, cell.y * SCALE);
+            rect.setFillColor(sf::Color::White);
+            rect.setSize(sf::Vector2f(SCALE, SCALE));
+            window.draw(rect);
         }
         window.display();
     }
