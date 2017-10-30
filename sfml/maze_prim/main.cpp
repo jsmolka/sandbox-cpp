@@ -55,7 +55,6 @@ int main()
     first.x = 2 * (rand() % ROW_COUNT) + 1;
     first.y = 2 * (rand() % COL_COUNT) + 1;
     maze[first.x][first.y] = WHITE;
-    draw_rect(first);
 
     // Generate frontier for initial coordinates
     for (auto &func : dir_two) {
@@ -89,8 +88,6 @@ int main()
                 {
                     sf::Vector2f between = dir_one[i](cell);
                     maze[cell.x][cell.y] = maze[between.x][between.y] = WHITE;
-                    draw_rect(cell);
-                    draw_rect(between);
                     break;
                 }
             }
@@ -107,23 +104,20 @@ int main()
             }
         }
 
-    // Draw maze
-    for (int i = 0; i < ROW_COUNT_WITH_WALLS; i++)
+        // Draw maze
+        for (int i = 0; i < ROW_COUNT_WITH_WALLS; i++)
         {
             for (int j = 0; j < COL_COUNT_WITH_WALLS; j++)
             {
-                sf::RectangleShape rect(sf::Vector2f(SCALE, SCALE));
-                rect.setPosition(i * SCALE, j * SCALE);
                 if (maze[i][j] == WHITE)
+                {
+                    sf::RectangleShape rect(sf::Vector2f(SCALE, SCALE));
+                    rect.setPosition(i * SCALE, j * SCALE);
                     rect.setFillColor(sf::Color::White);
-                else
-                    rect.setFillColor(sf::Color::Black);
-                if (maze[i][j] == 5)
-                    rect.setFillColor(sf::Color::Blue);
-                window.draw(rect);
+                    window.draw(rect);
+                }
             }
         }
-
         window.display();
     }
     return 0;
