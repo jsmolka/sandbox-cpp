@@ -2,14 +2,14 @@
 
 FpsCounter::FpsCounter(sf::Vector2f position, sf::Color color) :
 m_clock(),
-m_text()
+m_text(),
+m_font()
 {
-    sf::Font font;
-    if (!font.loadFromFile("Arial.ttf"))
+    if (!m_font.loadFromFile("Arial.ttf"))
     {
         std::cerr << "Could not load font" << std::endl;
     }
-    m_text.setFont(font);
+    m_text.setFont(m_font);
     m_text.setPosition(position);
     m_text.setFillColor(color);
 }
@@ -24,6 +24,6 @@ void FpsCounter::update()
 void FpsCounter::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
-    states.texture = NULL;
+    states.texture = nullptr;
     target.draw(m_text, states);
 }

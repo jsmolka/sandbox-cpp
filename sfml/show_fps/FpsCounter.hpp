@@ -17,6 +17,7 @@ private:
 
     sf::Clock m_clock;
     sf::Text m_text;
+    sf::Font m_font;
 };
 
 #endif //FPS_COUNTER_HPP
