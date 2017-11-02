@@ -1,20 +1,11 @@
 #include <iostream>
-#include <cmath>
-#include <sstream>
 #include <SFML/Graphics.hpp>
+
+#include "FpsCounter.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Show FPS");
-    sf::Clock clock;
-    sf::Text fpsCounter;
-    sf::Font font;
-    if (!font.loadFromFile("Arial.ttf"))
-    {
-        std::cerr << "Font not found" << std::endl;
-    }
-    fpsCounter.setFont(font);
-    fpsCounter.setFillColor(sf::Color::White);
-    fpsCounter.setPosition(0, 0);
+    FpsCounter fpsCounter(sf::Vector2f(0, 0), sf::Color::White);
 
     while (window.isOpen())
     {
@@ -25,14 +16,11 @@ int main() {
                 window.close();
         }
 
-        std::stringstream ss;
-        ss << std::trunc(1 / clock.restart().asSeconds());
-        fpsCounter.setString(ss.str());
+        fpsCounter.update();
 
         window.clear();
         window.draw(fpsCounter);
         window.display();
     }
-
     return 0;
 }
