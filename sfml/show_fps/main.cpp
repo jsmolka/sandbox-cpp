@@ -3,9 +3,11 @@
 
 #include "FpsCounter.hpp"
 
-int main() {
+int main()
+{
     sf::RenderWindow window(sf::VideoMode(800, 600), "Show FPS");
-    FpsCounter fpsCounter(sf::Vector2f(0, 0), sf::Color::White);
+    window.setFramerateLimit(120);
+    FpsCounter fpsCounter(sf::Vector2f(0, 0));
 
     while (window.isOpen())
     {
@@ -15,7 +17,7 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+        
         fpsCounter.update();
 
         window.clear();
