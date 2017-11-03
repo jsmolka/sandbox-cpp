@@ -1,28 +1,23 @@
 #include <cstdlib>
+#include <cstdlib>
 #include <iostream>
 #include "Snake.hpp"
 
 int main() {
-    unsigned int WIDTH;
-    unsigned int HEIGHT;
-    unsigned int SCALE;
-    unsigned int FRAMERATE;
-    std::cout << "Width: ";
-    std::cin >> WIDTH;
-    std::cout << "Height: ";
-    std::cin >> HEIGHT;
-    std::cout << "Scale: ";
-    std::cin >> SCALE;
-    std::cout << "Framerate: ";
-    std::cin >> FRAMERATE;
+    const unsigned int WIDTH = 50;
+    const unsigned int HEIGHT = 30;
+    const unsigned int SCALE = 20;
+    const float REFRESH = 0.05;
 
     sf::RenderWindow window(sf::VideoMode(WIDTH * SCALE, HEIGHT * SCALE), "Snake");
-    window.setFramerateLimit(FRAMERATE);
 
     while (window.isOpen())
     {
-        Snake snake(WIDTH, HEIGHT, SCALE);
+        system("cls");
+        sf::Clock clock;
+        float total = 0;
         bool print_score = true;
+        Snake snake(WIDTH, HEIGHT, SCALE);
 
         while (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
         {
@@ -44,7 +39,12 @@ int main() {
             if (!snake.gameOver())
             {
                 window.clear();
-                snake.move();
+                total += clock.restart().asSeconds();
+                if (total >= REFRESH)
+                {
+                    snake.move();
+                    total = 0;
+                }
                 window.draw(snake);
                 window.display();
             }
@@ -54,12 +54,10 @@ int main() {
                 {
                     std::cout << "Game Over" << std::endl;
                     std::cout << "Score " << snake.getScore() << std::endl;
-                    std::cout << "Press R to start a new game!" << std::endl;
                     print_score = false;
                 }
             }
         }
     }
-
     return 0;
 }
