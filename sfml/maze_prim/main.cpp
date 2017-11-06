@@ -13,9 +13,9 @@ const unsigned int COL_COUNT_WITH_WALLS = 2 * COL_COUNT + 1;
 const unsigned int BLACK = 0;
 const unsigned int MARKED = 1;
 const unsigned int WHITE = 2;
-vector<sf::Vector2f> draw;
 vector<vector<unsigned int>> maze;
 vector<sf::Vector2f> frontier;
+vector<sf::RectangleShape> draw;
 
 // Define directions
 sf::Vector2f n1(sf::Vector2f vector) {vector.y -= 1; return vector;}
@@ -30,6 +30,15 @@ sf::Vector2f w2(sf::Vector2f vector) {vector.x -= 2; return vector;}
 typedef sf::Vector2f (*Direction) (sf::Vector2f vector);
 Direction dir_one[] = {n1, s1, e1, w1};
 Direction dir_two[] = {n2, s2, e2, w2};
+
+sf::RectangleShape makeWhiteRectangle(float x, float y)
+{
+    sf::RectangleShape rect;
+    rect.setFillColor(sf::Color::White);
+    rect.setSize(sf::Vector2f(SCALE, SCALE));
+    rect.setPosition(sf::Vector2f(x * SCALE, y * SCALE));
+    return rect;
+}
 
 template <typename T>
 T pop_random(std::vector<T>& v)
@@ -48,6 +57,7 @@ bool out_of_bounds(sf::Vector2f vector)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(SCALE * COL_COUNT_WITH_WALLS, SCALE * ROW_COUNT_WITH_WALLS), "Maze Prim");
+    window.setFramerateLimit(200);
     maze.resize(COL_COUNT_WITH_WALLS, vector<unsigned int>(ROW_COUNT_WITH_WALLS, BLACK));
     srand(static_cast<unsigned int>(time(NULL)));
 
@@ -56,7 +66,7 @@ int main()
     first.x = 2 * (rand() % ROW_COUNT) + 1;
     first.y = 2 * (rand() % COL_COUNT) + 1;
     maze[first.x][first.y] = WHITE;
-    draw.emplace_back(first);
+    draw.emplace_back(makeWhiteRectangle(first.x, first.y));
 
     // Generate frontier for initial coordinates
     for (auto &func : dir_two) {
@@ -90,8 +100,8 @@ int main()
                 {
                     sf::Vector2f between = dir_one[i](cell);
                     maze[cell.x][cell.y] = maze[between.x][between.y] = WHITE;
-                    draw.emplace_back(cell);
-                    draw.emplace_back(between);
+                    draw.emplace_back(makeWhiteRectangle(cell.x, cell.y));
+                    draw.emplace_back(makeWhiteRectangle(between.x, between.y));
                     break;
                 }
             }
@@ -109,11 +119,7 @@ int main()
         }
 
         // Draw maze
-        for (auto &cell : draw) {
-            sf::RectangleShape rect;
-            rect.setPosition(cell.x * SCALE, cell.y * SCALE);
-            rect.setFillColor(sf::Color::White);
-            rect.setSize(sf::Vector2f(SCALE, SCALE));
+        for (const auto &rect : draw) {
             window.draw(rect);
         }
         window.display();
