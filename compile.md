@@ -19,7 +19,7 @@ This file contains some more or less important linker and cmake options used to 
 ## CMake
 
 ### Functions
-- ```set(CMAKE_EXE_LINKER_FLAGS ...)``` adds compiler flags
+- ```set(CMAKE_EXE_LINKER_FLAGS "...")``` adds compiler flags
 - ```target_link_libraries(project ...)``` adds libraries to the project
 - ```add_definitions(...)``` adds preprocessor definitions
 
