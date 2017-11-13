@@ -24,7 +24,7 @@ This file contains some more or less important linker and cmake options used to 
 - ```add_definitions(...)``` adds preprocessor definitions
 
 ### Statically link standard library
-- ```set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lwinpthread")```
+- ```set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lpthread")```
 
 ### Statically link SFML
 - ```add_definitions(-DSFML_STATIC)``` adds preprocessor definition
