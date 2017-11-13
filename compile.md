@@ -9,12 +9,12 @@ This file contains some more or less important linker and cmake options used to 
 - ```-O3``` enables heavy code optimization
 
 ### Libraries
-- ```-static-libstdc++``` standard C++ library
 - ```-static-libgcc``` standard C library
+- ```-static-libstdc++``` standard C++ library
 - ```-lpthread``` winpthread library
 
 ### Statically link standard library
-- ```-static-libstdc++ -static-libgcc -static -lpthread```
+- ```-static-libgcc -static-libstdc++ -static -lpthread```
 
 ## CMake
 
