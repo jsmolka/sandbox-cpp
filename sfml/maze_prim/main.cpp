@@ -6,16 +6,14 @@
 using namespace std;
 
 const unsigned int SCALE = 5;
-const unsigned int ROW_COUNT = 60;
-const unsigned int COL_COUNT = 60;
+const unsigned int ROW_COUNT = 100;
+const unsigned int COL_COUNT = 100;
 const unsigned int ROW_COUNT_WITH_WALLS = 2 * ROW_COUNT + 1;
 const unsigned int COL_COUNT_WITH_WALLS = 2 * COL_COUNT + 1;
+
 const unsigned int BLACK = 0;
 const unsigned int MARKED = 1;
 const unsigned int WHITE = 2;
-vector<vector<unsigned int>> maze;
-vector<sf::Vector2f> frontier;
-vector<sf::RectangleShape> draw;
 
 // Define directions
 sf::Vector2f n1(sf::Vector2f vector) {vector.y -= 1; return vector;}
@@ -57,16 +55,20 @@ bool out_of_bounds(sf::Vector2f vector)
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(SCALE * COL_COUNT_WITH_WALLS, SCALE * ROW_COUNT_WITH_WALLS), "Maze Prim");
-    window.setFramerateLimit(200);
+    sf::RenderTexture render;
+    render.create(window.getSize().x, window.getSize().y);
+    render.clear(sf::Color::Black);
+    vector<vector<unsigned int>> maze;
     maze.resize(COL_COUNT_WITH_WALLS, vector<unsigned int>(ROW_COUNT_WITH_WALLS, BLACK));
+    vector<sf::Vector2f> frontier;
     srand(static_cast<unsigned int>(time(NULL)));
 
     // Get initial coordinates
     sf::Vector2f first;
-    first.x = 2 * (rand() % ROW_COUNT) + 1;
-    first.y = 2 * (rand() % COL_COUNT) + 1;
+    first.x = (int)2 * (rand() % ROW_COUNT) + 1;
+    first.y = (int)2 * (rand() % COL_COUNT) + 1;
     maze[first.x][first.y] = WHITE;
-    draw.emplace_back(makeWhiteRectangle(first.x, first.y));
+    render.draw(makeWhiteRectangle(first.x, first.y));
 
     // Generate frontier for initial coordinates
     for (auto &func : dir_two) {
@@ -100,8 +102,8 @@ int main()
                 {
                     sf::Vector2f between = dir_one[i](cell);
                     maze[cell.x][cell.y] = maze[between.x][between.y] = WHITE;
-                    draw.emplace_back(makeWhiteRectangle(cell.x, cell.y));
-                    draw.emplace_back(makeWhiteRectangle(between.x, between.y));
+                    render.draw(makeWhiteRectangle(cell.x, cell.y));
+                    render.draw(makeWhiteRectangle(between.x, between.y));
                     break;
                 }
             }
@@ -119,9 +121,7 @@ int main()
         }
 
         // Draw maze
-        for (const auto &rect : draw) {
-            window.draw(rect);
-        }
+        window.draw(sf::Sprite(render.getTexture()));
         window.display();
     }
     return 0;
