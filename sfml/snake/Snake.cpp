@@ -108,8 +108,3 @@ bool Snake::gameOver()
             m_parts[0].getPosition().y == m_window_height * m_window_scale ||
             headInSnake());
 }
-
-int Snake::getScore()
-{
-    return (int)m_parts.size() - 1;
-}

@@ -11,7 +11,6 @@ class Snake : public sf::Drawable, public sf::Transformable {
 public:
     Snake(unsigned int width, unsigned int height, unsigned int scale);
     bool gameOver();
-    int getScore();
     void move();
     void setDirection(direction dir);
     void update();

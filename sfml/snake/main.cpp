@@ -1,5 +1,3 @@
-#include <cstdlib>
-#include <cstdlib>
 #include <iostream>
 #include "Snake.hpp"
 
@@ -7,19 +5,17 @@ int main() {
     const unsigned int WIDTH = 50;
     const unsigned int HEIGHT = 30;
     const unsigned int SCALE = 20;
-    const float REFRESH = 0.05;
+    const float MOVE = 0.05;
 
     sf::RenderWindow window(sf::VideoMode(WIDTH * SCALE, HEIGHT * SCALE), "Snake");
 
     while (window.isOpen())
     {
-        system("cls");
         sf::Clock clock;
         float total = 0;
-        bool print_score = true;
         Snake snake(WIDTH, HEIGHT, SCALE);
 
-        while (!sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+        while (!sf::Keyboard::isKeyPressed(sf::Keyboard::R) && window.isOpen())
         {
             sf::Event event;
             while (window.pollEvent(event))
@@ -40,22 +36,13 @@ int main() {
             {
                 window.clear();
                 total += clock.restart().asSeconds();
-                if (total >= REFRESH)
+                if (total >= MOVE)
                 {
                     snake.move();
                     total = 0;
                 }
                 window.draw(snake);
                 window.display();
-            }
-            else
-            {
-                if (print_score)
-                {
-                    std::cout << "Game Over" << std::endl;
-                    std::cout << "Score " << snake.getScore() << std::endl;
-                    print_score = false;
-                }
             }
         }
     }
