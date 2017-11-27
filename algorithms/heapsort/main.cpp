@@ -34,42 +34,40 @@ void heapify(int* heap, int size)
         swapDown(heap, i, size);
 }
 
-int find(const int* heap, int size, int n, int root=0)
+int find(int* heap, int size, int value, int root=0)
 {
-    if (heap[root] == n)  // Check if root is searched value
+    // Check if root is the searched value
+    if (heap[root] == value)
         return root;
-    int left = 2 * root + 1;  // Get position of left children relative to root
-    if (left < size)
+    // Calculate index of roots left children
+    int left = 2 * root + 1;
+    // Check if the calculated index is out of bounds
+    // Compare the heap value of the left children to the searched value
+    // If the heap value equals the searched value, the function will return at the next iteration
+    // If the heap value is smaller than the searched value, it might occur in later iterations of this sub part
+    // Else the whole sub part can be skipped because there is no chance of finding the searched value
+    if (left < size && heap[left] <= value)
     {
         std::cout << "root " << root << " left " << left << " heap " << heap[left] << std::endl;
-        if (heap[left] == n)
-            return left;
-        if (heap[left] < n)
-        {
-            int res = find(heap, size, n, left);
-            if (res != -1)
-                return res;
-        }
+        // Call the function with the left children as root and search through the sub part
+        int result = find(heap, size, value, left);
+        // Return the searched index if it was found
+        if (result != -1)
+            return result;
     }
+    // Do the same thing for the right children
     int right = 2 * root + 2;
-    if (right < size)
+    if (right < size && heap[right] <= value)
     {
         std::cout << "root " << root << " right " << right << " heap " << heap[right] << std::endl;
-        if (heap[right] == n)
-            return right;
-        if (heap[right] < n)
-        {
-            int res = find(heap, size, n, right);
-            if (res != -1)
-                return res;
-        }
+        int result = find(heap, size, value, right);
+        if (result != -1)
+            return result;
     }
-
+    // Return -1 if neither the left nor the right children yielded a result
     return -1;
 }
 
-//PRE:  The capacity of the array pointed to by heap is at least size.
-//POST: The first size elements of heap are sorted in descending order. 
 void sort(int* heap, int size)
 {
     for (int i = size - 1; i > 0; i--)
@@ -79,6 +77,7 @@ void sort(int* heap, int size)
     }
 }
 
+// TODO: Remove before handing in
 void heapStructure(int *heap, int size, int node=0, int d=0)
 {
     int left = (2 * node) + 1;
@@ -100,7 +99,7 @@ int main()
     heapStructure(heap, 12);
     printHeap(heap, 12);
     int m = find(heap, 12, 12);
-    std::cout << "res: " << m << std::endl;
+    std::cout << "result: " << m << std::endl;
 
 
     return 0;
