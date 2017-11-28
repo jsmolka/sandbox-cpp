@@ -32,8 +32,9 @@ void heapify(int* heap, int size, int parent)  // O(log n)
 
 void build(int* heap, int size)  // O(n)
 {
-    // Lowest level with leaves begins at size / 2 - 1
-    // Just go through levels without leaves and heapify them from lowest to highest
+    // The lowest level only contains leaves
+    // Lowest level with nodes begins at size / 2 - 1
+    // Just go through levels with nodes and heapify them bottom-up
     for (int parent = size / 2 - 1; parent >= 0; parent--)
         heapify(heap, size, parent);
 }
@@ -46,10 +47,10 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
     // Calculate index of parent's left children
     int left = 2 * parent + 1;
     // Check if the calculated index is out of bounds
-    // Compare the heap's value of the left children to the searched value
-    // If the heap's value equals the searched value, the function will return at the next iteration
-    // If the heap's value is smaller than the searched value, it might occur in later iterations of this sub part
-    // Else the whole sub part can be skipped because there is no chance of finding the searched value
+    // Compare heap's value of the left children to the searched value
+    // If heap's value equals the searched value, the function will return it at the next recursion
+    // If heap's value is smaller than the searched value, it might occur in later recursions
+    // Else the whole tree can be skipped because there is no chance of finding the searched value
     if (left < size && heap[left] <= value)
     {
         std::cout << "parent " << heap[parent] << " left " << heap[left] << std::endl;
@@ -68,20 +69,20 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
         if (result != FAILED)
             return result;
     }
-    // Return -1 if neither the left nor the right children yielded a result
-    return -1;
+    // Return failed if neither the left nor the right children yielded a result
+    return FAILED;
 }
 
 void sort(int* heap, int size)  // O(n log n)
 {
     // Make sure array has heap structure
     // build(heap, size);
-    // Build creates a min heap -> sort in descending order
+    // Build creates a min heap, sort in descending order
     for (int parent = size - 1; parent > 0; parent--)
     {
         // Smallest element is first, swap it with the last
         std::swap(heap[0], heap[parent]);
-        // Make sure the second smallest element is at first position
+        // Make sure the next smallest element is at the first position
         heapify(heap, parent, 0);
     }
 }
