@@ -75,7 +75,7 @@ int find(int* heap, int size, int value, int root=0)  // O(n)
 void sort(int* heap, int size)  // O(n log n)
 {
     // Make sure array has heap structure
-    build(heap, size);
+    // build(heap, size);
     // Build creates a min heap -> sort in descending order
     for (int root = size - 1; root > 0; root--)
     {
