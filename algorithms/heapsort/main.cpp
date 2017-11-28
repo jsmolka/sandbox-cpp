@@ -1,5 +1,7 @@
 #include <iostream>
 
+#define FAILED (-1)  // Value for failed search, could be any other
+
 void print(int* array, int size)  // O(n)
 {
     for(int i = 0; i < size; i++)
@@ -54,7 +56,7 @@ int find(int* heap, int size, int value, int root=0)  // O(n)
         // Call the function with the left children as root and search through the sub part
         int result = find(heap, size, value, left);
         // Return the searched index if it was found
-        if (result != -1)
+        if (result != FAILED)
             return result;
     }
     // Do the same thing for the right children
@@ -63,7 +65,7 @@ int find(int* heap, int size, int value, int root=0)  // O(n)
     {
         std::cout << "root " << heap[root] << " right " << heap[right] << std::endl;
         int result = find(heap, size, value, right);
-        if (result != -1)
+        if (result != FAILED)
             return result;
     }
     // Return -1 if neither the left nor the right children yielded a result
@@ -98,7 +100,7 @@ int main()
     // 6.
     std::cout << "start searching 10" << std::endl;
     int result = find(heap, 9, 10);
-    if (result != -1)
+    if (result != FAILED)
         std::cout << "value 10 found at index " << result << std::endl;
     else
         std::cout << "value 10 not found" << std::endl;
@@ -106,7 +108,7 @@ int main()
     // 7.
     std::cout << "start searching 34" << std::endl;
     result = find(heap, 9, 34);
-    if (result != -1)
+    if (result != FAILED)
         std::cout << "value 34 found at index " << result << std::endl;
     else
         std::cout << "value 34 not found" << std::endl;
