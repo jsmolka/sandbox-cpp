@@ -4,7 +4,7 @@
 
 void print(int* array, int size)  // O(n)
 {
-    for(int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
         std::cout << array[i] << " ";
     std::cout << std::endl;
 }
@@ -16,12 +16,12 @@ void heapify(int* heap, int size, int parent)  // O(log n)
     int left = 2 * parent + 1;
     int right = 2 * parent + 2;
     // Find out if and which of parent's two children holds the minimal value
-    if(left < size && heap[left] < heap[min])
+    if (left < size && heap[left] < heap[min])
         // Assign children index to min if it is smaller
         min = left;
-    if(right < size && heap[right] < heap[min])
+    if (right < size && heap[right] < heap[min])
         min = right;
-    if(min != parent)
+    if (min != parent)
     {
         // Swap parent with min if they are unequal
         std::swap(heap[parent], heap[min]);
