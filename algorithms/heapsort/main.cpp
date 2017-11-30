@@ -1,6 +1,6 @@
 #include <iostream>
 
-#define FAILED (-1)  // Value for failed search, could be any other
+#define FAILED (-1)  // Value for failed search, (-1) because arrays have no negative indices
 
 void print(int* array, int size)  // O(n)
 {
@@ -12,13 +12,14 @@ void print(int* array, int size)  // O(n)
 void heapify(int* heap, int size, int parent)  // O(log n)
 {
     int min = parent;
-    // Calculate parent's left and right children
+    // Calculate parent's left children
     int left = 2 * parent + 1;
-    int right = 2 * parent + 2;
-    // Find out if and which of parent's two children holds the minimal value
+    // Check if left children holds a smaller value than parent
     if (left < size && heap[left] < heap[min])
-        // Assign children index to min if it is smaller
+        // Assign children to min if it is smaller
         min = left;
+    // Do the same for the right children
+    int right = 2 * parent + 2;
     if (right < size && heap[right] < heap[min])
         min = right;
     if (min != parent)
@@ -32,10 +33,11 @@ void heapify(int* heap, int size, int parent)  // O(log n)
 
 void build(int* heap, int size)  // O(n)
 {
-    // The lowest level only contains leaves
-    // Lowest level with nodes begins at size / 2 - 1
-    // Just go through levels with nodes and heapify them bottom-up
+    // The lowest level only contains leaves (nodes without further children)
+    // The second Lowest level holds the first valid nodes and ends at (size / 2 - 1)
     for (int parent = size / 2 - 1; parent >= 0; parent--)
+        // Work bottom-up and call heapify for each node
+        // This makes sure that the whole tree under the current parent has heap structure
         heapify(heap, size, parent);
 }
 
@@ -46,15 +48,14 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
         return parent;
     // Calculate index of parent's left children
     int left = 2 * parent + 1;
-    // Check if the calculated index is out of bounds
     // Compare heap's value of the left children to the searched value
     // If heap's value equals the searched value, the function will return it at the next recursion
     // If heap's value is smaller than the searched value, it might occur in later recursions
     // Else the whole tree can be skipped because there is no chance of finding the searched value
     if (left < size && heap[left] <= value)
     {
-        std::cout << "parent " << heap[parent] << " left " << heap[left] << std::endl;
-        // Call the function with the left children as parent and search through the sub part
+        std::cout << "going from parent " << heap[parent] << " to left children " << heap[left] << std::endl;
+        // Call the function with the left children as parent and search through the sub tree
         int result = find(heap, size, value, left);
         // Return the searched index if it was found
         if (result != FAILED)
@@ -64,7 +65,7 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
     int right = 2 * parent + 2;
     if (right < size && heap[right] <= value)
     {
-        std::cout << "parent " << heap[parent] << " right " << heap[right] << std::endl;
+        std::cout << "going from parent " << heap[parent] << " to right children " << heap[right] << std::endl;
         int result = find(heap, size, value, right);
         if (result != FAILED)
             return result;
@@ -73,11 +74,10 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
     return FAILED;
 }
 
-void sort(int* heap, int size)  // O(n log n)
+void heapsort(int* heap, int size)  // O(n log n)
 {
-    // Make sure array has heap structure
+    // Build could be called to ensure the heap structure
     // build(heap, size);
-    // Build creates a min heap, sort in descending order
     for (int parent = size - 1; parent > 0; parent--)
     {
         // Smallest element is first, swap it with the last
@@ -89,16 +89,17 @@ void sort(int* heap, int size)  // O(n log n)
 
 int main()
 {
+    // Define initial array
     int heap[9] = {6, 2, 3, 8, 7, 5, 10, 12, 1};
     std::cout << "array: ";
     print(heap, 9);
 
-    // 4.
+    // Create heap
     build(heap, 9);
     std::cout << "heap: ";
     print(heap, 9);
 
-    // 6.
+    // Search for (10)
     std::cout << "start searching 10" << std::endl;
     int result = find(heap, 9, 10);
     if (result != FAILED)
@@ -106,7 +107,7 @@ int main()
     else
         std::cout << "value 10 not found" << std::endl;
 
-    // 7.
+    // Search for (34)
     std::cout << "start searching 34" << std::endl;
     result = find(heap, 9, 34);
     if (result != FAILED)
@@ -114,8 +115,8 @@ int main()
     else
         std::cout << "value 34 not found" << std::endl;
 
-    // 5.
-    sort(heap, 9);
+    // Sort heap with heapsort
+    heapsort(heap, 9);
     std::cout << "sorted: "; print(heap, 9);
 
     return 0;
