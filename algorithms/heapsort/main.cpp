@@ -83,6 +83,7 @@ void heapsort(int* heap, int size)  // O(n log n)
         // Smallest element is first, swap it with the last
         std::swap(heap[0], heap[parent]);
         // Make sure the next smallest element is at the first position
+        // Call heapify just for the unsorted part of the heap to keep the sorted part
         heapify(heap, parent, 0);
     }
 }
