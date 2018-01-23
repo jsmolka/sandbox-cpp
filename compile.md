@@ -7,6 +7,7 @@ This file contains some more or less important linker and cmake options used to 
 - ```-static``` switches the compiler linking to static
 - ```-mwindows``` removes console
 - ```-O3``` enables heavy code optimization
+- ```-m32``` compile as 32-bit application
 
 ### Libraries
 - ```-static-libgcc``` standard C library
