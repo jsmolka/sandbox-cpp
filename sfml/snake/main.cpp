@@ -1,11 +1,12 @@
 #include <iostream>
 #include "Snake.hpp"
 
-int main() {
-    const unsigned int WIDTH = 50;
-    const unsigned int HEIGHT = 30;
-    const unsigned int SCALE = 20;
-    const float MOVE = 0.05;
+int main()
+{
+    const int WIDTH = 50;
+    const int HEIGHT = 30;
+    const int SCALE = 20;
+    const float MOVE = 0.075;
 
     sf::RenderWindow window(sf::VideoMode(WIDTH * SCALE, HEIGHT * SCALE), "Snake");
 

@@ -1,6 +1,6 @@
 #include "Snake.hpp"
 
-Snake::Snake(unsigned int width, unsigned int height, unsigned int scale)
+Snake::Snake(int width, int height, int scale)
 {
     srand(time(NULL));
 
