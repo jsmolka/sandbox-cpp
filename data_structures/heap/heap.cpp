@@ -54,7 +54,6 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
     // Else the whole tree can be skipped because there is no chance of finding the searched value
     if (left < size && heap[left] <= value)
     {
-        std::cout << "going from parent " << heap[parent] << " to left children " << heap[left] << std::endl;
         // Call the function with the left children as parent and search through the sub tree
         int result = find(heap, size, value, left);
         // Return the searched index if it was found
@@ -65,7 +64,6 @@ int find(int* heap, int size, int value, int parent=0)  // O(n)
     int right = 2 * parent + 2;
     if (right < size && heap[right] <= value)
     {
-        std::cout << "going from parent " << heap[parent] << " to right children " << heap[right] << std::endl;
         int result = find(heap, size, value, right);
         if (result != FAILED)
             return result;
@@ -116,7 +114,7 @@ int main()
     else
         std::cout << "value 34 not found" << std::endl;
 
-    // Sort heap with heapsort
+    // Sort heap with hea
     heapsort(heap, 9);
     std::cout << "sorted: "; print(heap, 9);
 
