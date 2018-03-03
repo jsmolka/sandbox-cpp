@@ -1,6 +1,4 @@
-#include <iostream>
-
-#define FAILED (-1)  // Value for failed search, (-1) because arrays have no negative indices
+#include "heap.hpp"
 
 void print(int* array, int size)  // O(n)
 {
@@ -84,39 +82,4 @@ void heapsort(int* heap, int size)  // O(n log n)
         // Call heapify just for the unsorted part of the heap to keep the sorted part
         heapify(heap, parent, 0);
     }
-}
-
-int main()
-{
-    // Define initial array
-    int heap[9] = {6, 2, 3, 8, 7, 5, 10, 12, 1};
-    std::cout << "array: ";
-    print(heap, 9);
-
-    // Create heap
-    build(heap, 9);
-    std::cout << "heap: ";
-    print(heap, 9);
-
-    // Search for (10)
-    std::cout << "start searching 10" << std::endl;
-    int result = find(heap, 9, 10);
-    if (result != FAILED)
-        std::cout << "value 10 found at index " << result << std::endl;
-    else
-        std::cout << "value 10 not found" << std::endl;
-
-    // Search for (34)
-    std::cout << "start searching 34" << std::endl;
-    result = find(heap, 9, 34);
-    if (result != FAILED)
-        std::cout << "value 34 found at index " << result << std::endl;
-    else
-        std::cout << "value 34 not found" << std::endl;
-
-    // Sort heap with hea
-    heapsort(heap, 9);
-    std::cout << "sorted: "; print(heap, 9);
-
-    return 0;
 }
