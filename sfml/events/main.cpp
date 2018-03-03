@@ -3,7 +3,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     sf::Window window(sf::VideoMode(800, 600), "Event window");
 
     while (window.isOpen())
@@ -49,6 +50,5 @@ int main() {
             }
         }
     }
-
     return 0;
 }

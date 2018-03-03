@@ -3,7 +3,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
     sf::Window window(sf::VideoMode(800, 600), "My window", sf::Style::Default);
     /* Third argument for the constructor can be a style enum (not necessary)
      * sf::Style::None          no decoration

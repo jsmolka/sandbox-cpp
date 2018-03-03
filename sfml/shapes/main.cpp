@@ -1,7 +1,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-int main() {
+int main()
+{
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;  // Use anti aliasing for render window
 

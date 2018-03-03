@@ -22,12 +22,12 @@ private:
     void generateApple();
     bool headInSnake();
 
-    int m_window_width;
-    int m_window_height;
-    int m_window_scale;
-    direction m_direction;
-    sf::RectangleShape m_apple;
-    std::vector<sf::RectangleShape> m_parts;
+    int mWindowWidth;
+    int mWindowHeight;
+    int mWindowScale;
+    direction mDirection;
+    sf::RectangleShape mApple;
+    std::vector<sf::RectangleShape> mParts;
 };
 
 #endif //SNAKE_SNAKE_HPP

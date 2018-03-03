@@ -1,7 +1,8 @@
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
 
-int main() {
+int main()
+{
     sf::RenderWindow window(sf::VideoMode(800, 600), "Render window");
 
     while (window.isOpen())

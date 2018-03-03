@@ -71,7 +71,8 @@ int main()
     render.draw(makeWhiteRectangle(first.x, first.y));
 
     // Generate frontier for initial coordinates
-    for (auto &func : dir_two) {
+    for (auto &func : dir_two)
+    {
         sf::Vector2f cell = func(first);
         if (!out_of_bounds(cell))
         {
@@ -89,7 +90,7 @@ int main()
                 window.close();
         }
 
-         window.clear();
+        window.clear();
 
         if (!frontier.empty())
         {
@@ -107,7 +108,6 @@ int main()
                     break;
                 }
             }
-
             // Find adjacent cells of popped cell
             for (auto &func : dir_two)
             {
@@ -119,7 +119,6 @@ int main()
                 }
             }
         }
-
         // Draw maze
         window.draw(sf::Sprite(render.getTexture()));
         window.display();

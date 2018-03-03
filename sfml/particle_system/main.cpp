@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "ParticleSystem.hpp"
 
-int main() {
+int main()
+{
     sf::RenderWindow window(sf::VideoMode(800, 600), "Particle System");
 
     ParticleSystem particles(100000);
