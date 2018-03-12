@@ -6,6 +6,9 @@ int main(int argc, char *argv[])
     QApplication app (argc, argv);
 
     QPushButton button ("Hello world!");
+    button.setText("My Text");
+    button.setToolTip("A tooltip");
+    button.setFont(QFont ("Courier"));
     button.show();
 
     return app.exec();
