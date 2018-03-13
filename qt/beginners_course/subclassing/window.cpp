@@ -9,4 +9,6 @@ QWidget(parent)
     // Create and position button
     mButton = new QPushButton("Hello World", this);
     mButton->setGeometry(10, 10, 460, 340);
+
+    connect(mButton, SIGNAL(clicked()),  QApplication::instance(), SLOT(quit()));
 }
