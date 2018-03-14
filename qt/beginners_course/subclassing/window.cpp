@@ -1,7 +1,7 @@
 #include "window.hpp"
 
 Window::Window(QWidget *parent) :
-QWidget(parent)
+    QWidget(parent)
 {
     // Set size of window
     setFixedSize(480, 360);
