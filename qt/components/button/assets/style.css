@@ -1,0 +1,12 @@
+QPushButton {
+	background-color: DarkGray;
+	border: 1px solid black;
+}
+
+QPushButton:hover {
+	background-color: Orange;
+}
+
+QPushButton:pressed {
+	background-color: DarkOrange;
+}
