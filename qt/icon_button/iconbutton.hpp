@@ -2,33 +2,31 @@
 #define ICONBUTTON_HPP
 
 #include <QPushButton>
-#include <QPixmap>
 #include <QIcon>
 
 class IconButton : public QPushButton
 {
     Q_OBJECT
 
-    Q_PROPERTY(QIcon checkedIcon READ checkedIcon WRITE setCheckedIcon)
-    Q_PROPERTY(QIcon uncheckedIcon READ uncheckedIcon WRITE setUncheckedIcon)
-
 public:
     explicit IconButton(QWidget *parent = 0);
 
-    void setCheckedIcon(QIcon icon);
-    void setCheckedIcon(QString path);
-    void setUncheckedIcon(QIcon icon);
-    void setUncheckedIcon(QString path);
+    void setIcon1(QString path);
+    void setIcon2(QString path);
 
-    QIcon checkedIcon() const;
-    QIcon uncheckedIcon() const;
+    QIcon icon1() const;
+    QIcon icon2() const;
 
-private slots:
-    void slotToggle();
+    void init(QString path, QSize size);
+    void init(QString path1, QString path2, QSize size);
+
+public slots:
+    void toggleIcon();
 
 private:
-    QIcon mCheckedIcon;
-    QIcon mUncheckedIcon;
+    QIcon mIcon1;
+    QIcon mIcon2;
+    bool mToggle;
 };
 
 #endif // ICONBUTTON_HPP

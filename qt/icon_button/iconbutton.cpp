@@ -3,44 +3,56 @@
 IconButton::IconButton(QWidget *parent) :
     QPushButton(parent)
 {
-    setCheckable(true);
-    setChecked(false);
+    mToggle = true;
 
-    setFixedSize(100, 100);
-    connect(this, SIGNAL(clicked(bool)), this, SLOT(check()));
+    setFlat(true);
+    connect(this, SIGNAL(clicked(bool)), this, SLOT(toggleIcon()));
 }
 
-void IconButton::setCheckedIcon(QIcon icon)
+void IconButton::setIcon1(QString path)
 {
-    mCheckedIcon = icon;
+    mIcon1 = QIcon(path);
 }
 
-void IconButton::setCheckedIcon(QString path)
+QIcon IconButton::icon1() const
 {
-    setCheckedIcon(QIcon(path));
+    return mIcon1;
 }
 
-void IconButton::setUncheckedIcon(QIcon icon)
+void IconButton::setIcon2(QString path)
 {
-    mUncheckedIcon = icon;
+    mIcon2 = QIcon(path);
 }
 
-void IconButton::setUncheckedIcon(QString path)
+QIcon IconButton::icon2() const
 {
-    setUncheckedIcon(QIcon(path));
+    return mIcon2;
 }
 
-QIcon IconButton::checkedIcon() const
+void IconButton::init(QString path, QSize size)
 {
-    return icon();
+   init(path, QString(), size);
 }
 
-QIcon IconButton::uncheckedIcon() const
+void IconButton::init(QString path1, QString path2, QSize size)
 {
-    return icon();
+    setIcon1(path1);
+    setIcon2(path2);
+    setIconSize(size);
+
+    setIcon(mIcon1);
 }
 
-void IconButton::slotToggle()
+void IconButton::toggleIcon()
 {
-    // Do stuff
+    mToggle = !mToggle;
+
+    if (mToggle && !mIcon1.isNull())
+    {
+        setIcon(mIcon1);
+    }
+    else if (!mIcon2.isNull())
+    {
+        setIcon(mIcon2);
+    }
 }
