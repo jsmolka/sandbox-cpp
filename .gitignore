@@ -7,7 +7,7 @@ CMakeLists.txt
 
 # Qt
 bin/
-*.pro.user
+*.user
 
 # Compiled files
 *.exe
