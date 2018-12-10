@@ -7,12 +7,13 @@
 
 class Window : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     explicit Window(QWidget *parent = 0);
 
 private:
-    QPushButton *mButton;
+    QPushButton *m_button;
 };
 
 #endif // WINDOW_HPP

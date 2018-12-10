@@ -7,7 +7,8 @@
 
 class Window : public QWidget
 {
-Q_OBJECT
+    Q_OBJECT
+
 public:
     explicit Window(QWidget *parent = 0);
 
@@ -18,8 +19,8 @@ private slots:
     void slotButtonClicked(bool checked);
 
 private:
-    int mCounter;
-    QPushButton *mButton;
+    int m_counter;
+    QPushButton *m_button;
 };
 
 #endif // WINDOW_HPP

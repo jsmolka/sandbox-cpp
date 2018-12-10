@@ -1,5 +1,6 @@
 #include <iostream>
-#include "Snake.hpp"
+
+#include "snake.hpp"
 
 int main()
 {

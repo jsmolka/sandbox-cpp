@@ -7,27 +7,27 @@ Window::Window(QWidget *parent) :
     setFixedSize(480, 360);
 
     // Set counter to zero
-    mCounter = 0;
+    m_counter = 0;
 
     // Create and position the button
-    mButton = new QPushButton("Hello World", this);
-    mButton->setGeometry(10, 10, 460, 340);
-    mButton->setCheckable(true);
+    m_button = new QPushButton("Hello World", this);
+    m_button->setGeometry(10, 10, 460, 340);
+    m_button->setCheckable(true);
 
     // Create connections
-    connect(mButton, SIGNAL(clicked(bool)), this, SLOT(slotButtonClicked(bool)));
-    connect(this, SIGNAL(counterReached()), QApplication::instance(), SLOT(quit()));
+    connect(m_button, &QPushButton::clicked, this, &Window::slotButtonClicked);
+    connect(this, &Window::counterReached, QApplication::instance(), &QApplication::quit);
 }
 
 void Window::slotButtonClicked(bool checked)
 {
     if (checked)
-        mButton->setText("Checked");
+        m_button->setText("Checked");
     else
-        mButton->setText("Hello World");
+        m_button->setText("Hello World");
 
-    mCounter++;
+    m_counter++;
 
-    if (mCounter == 10)
+    if (m_counter == 10)
         emit counterReached();
 }

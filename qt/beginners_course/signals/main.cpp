@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     window.show();
 
     // Create connection
-    QObject::connect(slider, SIGNAL(valueChanged(int)), progressBar, SLOT(setValue(int)));
+    QObject::connect(slider, &QSlider::valueChanged, progressBar, &QProgressBar::setValue);
 
     return app.exec();
 }

@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <cmath>
-#include "constants.hpp"
+
 #include <SFML/Graphics.hpp>
+
+#include "constants.hpp"
 
 typedef struct spring_s
 {

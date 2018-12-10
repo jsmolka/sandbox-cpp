@@ -1,4 +1,5 @@
 #include <cstdlib>
+
 #include <SFML/Graphics.hpp>
 
 int main()

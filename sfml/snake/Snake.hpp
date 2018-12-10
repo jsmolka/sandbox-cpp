@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <ctime>
+
 #include <SFML/Graphics.hpp>
 
 enum direction {north = 0, south = 1, east = 2, west = 3};
@@ -22,12 +23,12 @@ private:
     void generateApple();
     bool headInSnake();
 
-    int mWindowWidth;
-    int mWindowHeight;
-    int mWindowScale;
-    direction mDirection;
-    sf::RectangleShape mApple;
-    std::vector<sf::RectangleShape> mParts;
+    int m_windowWidth;
+    int m_windowHeight;
+    int m_windowScale;
+    direction m_direction;
+    sf::RectangleShape m_apple;
+    std::vector<sf::RectangleShape> m_parts;
 };
 
 #endif //SNAKE_SNAKE_HPP

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "ParticleSystem.hpp"
+
+#include "particlesystem.hpp"
 
 int main()
 {

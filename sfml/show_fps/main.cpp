@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "FpsCounter.hpp"
+#include "fpscounter.hpp"
 
 int main()
 {

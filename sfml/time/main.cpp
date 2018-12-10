@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+
 #include <SFML/System.hpp>
 
 void delay(int seconds)

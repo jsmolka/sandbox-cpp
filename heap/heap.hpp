@@ -1,5 +1,5 @@
-#ifndef HEAPSORT_HEAP_HPP
-#define HEAPSORT_HEAP_HPP
+#ifndef HEAP_HPP
+#define HEAP_HPP
 
 #include <iostream>
 
@@ -11,4 +11,4 @@ void build(int* heap, int size);
 int find(int* heap, int size, int value, int parent=0);
 void heapsort(int* heap, int size);
 
-#endif //HEAPSORT_HEAP_HPP
+#endif // HEAP_HPP

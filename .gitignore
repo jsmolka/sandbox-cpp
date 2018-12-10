@@ -1,15 +1,5 @@
-# User-specific stuff:
-.idea/
-
 # CMake
-cmake-build-debug/
-CMakeLists.txt
+bin/
 
 # Qt
-bin/
 *.user
-
-# Compiled files
-*.exe
-*.so
-*.a

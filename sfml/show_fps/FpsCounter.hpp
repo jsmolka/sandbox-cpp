@@ -8,21 +8,21 @@ class FpsCounter : public sf::Drawable, public sf::Transformable
 {
 public:
     FpsCounter(sf::Vector2f position, unsigned int fps, unsigned int size, sf::Color color, std::string fontPath) :
-    mClock(),
-    mText(),
-    mFont(),
-    mFrame(0),
-    mFps(1.f / fps),
-    mTotal(0)
+    m_clock(),
+    m_text(),
+    m_font(),
+    m_frame(0),
+    m_fps(1.f / fps),
+    m_total(0)
     {
-        if (!mFont.loadFromFile(fontPath))
+        if (!m_font.loadFromFile(fontPath))
         {
             std::cerr << "Could not load font: " << fontPath << std::endl;
         }
-        mText.setFont(mFont);
-        mText.setPosition(position);
-        mText.setFillColor(color);
-        mText.setCharacterSize(size);
+        m_text.setFont(m_font);
+        m_text.setPosition(position);
+        m_text.setFillColor(color);
+        m_text.setCharacterSize(size);
     }
 
     FpsCounter(sf::Vector2f position, unsigned int fps, unsigned int size, sf::Color color) :
@@ -47,12 +47,12 @@ public:
 
     void update()
     {
-        mFrame++;
-        mTotal += mClock.restart().asSeconds();
-        if (mTotal >= mFps)
+        m_frame++;
+        m_total += m_clock.restart().asSeconds();
+        if (m_total >= m_fps)
         {
-            mText.setString(std::to_string(static_cast<int>(mFrame / mTotal)));
-            mTotal = mFrame = 0;
+            m_text.setString(std::to_string(static_cast<int>(m_frame / m_total)));
+            m_total = m_frame = 0;
         }
     }
 
@@ -61,15 +61,15 @@ private:
     {
         states.transform *= getTransform();
         states.texture = nullptr;
-        target.draw(mText, states);
+        target.draw(m_text, states);
     }
 
-    sf::Clock mClock;
-    sf::Text mText;
-    sf::Font mFont;
-    unsigned int mFrame;
-    float mFps;
-    float mTotal;
+    sf::Clock m_clock;
+    sf::Text m_text;
+    sf::Font m_font;
+    unsigned int m_frame;
+    float m_fps;
+    float m_total;
 };
 
 #endif //FPS_COUNTER_HPP

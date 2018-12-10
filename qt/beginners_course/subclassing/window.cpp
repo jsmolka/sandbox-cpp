@@ -7,8 +7,8 @@ Window::Window(QWidget *parent) :
     setFixedSize(480, 360);
 
     // Create and position button
-    mButton = new QPushButton("Hello World", this);
-    mButton->setGeometry(10, 10, 460, 340);
+    m_button = new QPushButton("Hello World", this);
+    m_button->setGeometry(10, 10, 460, 340);
 
-    connect(mButton, SIGNAL(clicked()),  QApplication::instance(), SLOT(quit()));
+    connect(m_button, &QPushButton::clicked,  qApp, &QApplication::quit);
 }

@@ -20,10 +20,10 @@ private:
     };
     void resetParticle(std::size_t index);
 
-    std::vector<Particle> mParticles;
-    sf::VertexArray mVertices;
-    sf::Time mLifetime;
-    sf::Vector2f mEmitter;
+    std::vector<Particle> m_particles;
+    sf::VertexArray m_vertices;
+    sf::Time m_lifetime;
+    sf::Vector2f m_emitter;
 };
 
 #endif //PARTICLE_SYSTEM_PARTICLESYSTEM_HPP

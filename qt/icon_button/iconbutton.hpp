@@ -11,22 +11,22 @@ class IconButton : public QPushButton
 public:
     explicit IconButton(QWidget *parent = 0);
 
-    void setIcon1(QString path);
-    void setIcon2(QString path);
+    void setIcon1(const QString &path);
+    void setIcon2(const QString &path);
 
     QIcon icon1() const;
     QIcon icon2() const;
 
-    void init(QString path, QSize size);
-    void init(QString path1, QString path2, QSize size);
+    void init(const QString &path, const QSize &size);
+    void init(const QString &path1, const QString &path2, const QSize &size);
 
 public slots:
     void toggleIcon();
 
 private:
-    QIcon mIcon1;
-    QIcon mIcon2;
-    bool mToggle;
+    QIcon m_icon1;
+    QIcon m_icon2;
+    bool m_toggle;
 };
 
 #endif // ICONBUTTON_HPP

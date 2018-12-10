@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QWidget>
+
 #include "iconbutton.hpp"
 
 int main(int argc, char *argv[])
