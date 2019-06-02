@@ -3,3 +3,6 @@ bin/
 
 # Qt
 *.user
+
+# Visual Studio
+.vs
