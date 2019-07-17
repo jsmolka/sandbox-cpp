@@ -16,10 +16,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{653bd2b1-69c2-4162-86c4-47edf04913c6}</ProjectGuid>
-    <RootNamespace>register_benchmark</RootNamespace>
+    <ProjectGuid>{d354819a-0484-40a6-99f8-941ca9d78780}</ProjectGuid>
+    <RootNamespace>constexpr_function_lut</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>register-benchmark</ProjectName>
+    <ProjectName>constexpr-function-lut</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

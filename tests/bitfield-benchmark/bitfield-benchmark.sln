@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bitfield-benchmark", "bitfield-benchmark\bitfield-benchmark.vcxproj", "{79D58FE0-EC7C-452E-9875-37C560ACEF08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release (Debug)|x64 = Release (Debug)|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Debug|x64.ActiveCfg = Debug|x64
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Debug|x64.Build.0 = Debug|x64
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Release (Debug)|x64.ActiveCfg = Release (Debug)|x64
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Release (Debug)|x64.Build.0 = Release (Debug)|x64
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Release|x64.ActiveCfg = Release|x64
+		{79D58FE0-EC7C-452E-9875-37C560ACEF08}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F40DE1C-85CD-4949-A0C4-8BD71EE5C930}
+	EndGlobalSection
+EndGlobal
