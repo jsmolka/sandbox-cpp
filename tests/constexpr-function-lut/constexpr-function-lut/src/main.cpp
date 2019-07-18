@@ -1,5 +1,4 @@
 #include <array>
-#include <memory>
 #include <iostream>
 
 template<typename T>
@@ -13,32 +12,28 @@ void func(int value)
     std::cout << (arg * value) << std::endl;
 }
 
-// Static for https://codereview.stackexchange.com/a/173570/160845
-
-template<typename T, T Begin, class Func, T ...Is>
-constexpr void static_for_impl(Func&& f, std::integer_sequence<T, Is...>)
+template<int arg>
+constexpr IntExecutor emitExecutor()
 {
-    (f(std::integral_constant<T, Begin + Is>{ }), ...);
+    // Do something with arg and return a matching executor function
+    return func<arg>;
 }
 
-template<typename T, T Begin, T End, class Func>
-constexpr void static_for(Func&& f)
+// My hero: https://stackoverflow.com/a/57092468/7057528
+
+template <std::size_t ... Is>
+constexpr std::array<IntExecutor, sizeof...(Is)> makeLutHelper(std::index_sequence<Is...>)
 {
-    static_for_impl<T, Begin>(std::forward<Func>(f), std::make_integer_sequence<T, End - Begin>{ });
+    return { emitExecutor<(int)Is>()... };
 }
 
-template<int N>
-constexpr std::array<IntExecutor, N> makeLut()
+template <std::size_t N>
+constexpr auto makeLut()
 {
-    std::array<IntExecutor, N> lut = {};
-    static_for<size_t, 0, N>([&](auto x) {
-        lut[x] = func<x>;
-    });
-    return lut;
+    return makeLutHelper(std::make_index_sequence<N>{});
 }
 
-// MSVC has a fucking stack overflow when going higher...
-constexpr auto lut = makeLut<0x250>();
+constexpr auto lut = makeLut<0x1100>();
 
 int main(int argc, char* argv[])
 {
