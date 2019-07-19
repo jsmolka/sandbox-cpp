@@ -7,38 +7,38 @@ using Executor = void(*)(T);
 using IntExecutor = Executor<int>;
 
 template<int arg>
-void func(int value)
+void exec(int value)
 {
     std::cout << (arg * value) << std::endl;
 }
 
-template<int arg>
+template<int value>
 constexpr IntExecutor emitExecutor()
 {
-    // Do something with arg and return a matching executor function
-    return func<arg>;
+    return exec<value>;
 }
 
-// My hero: https://stackoverflow.com/a/57092468/7057528
-
-template <std::size_t ... Is>
-constexpr std::array<IntExecutor, sizeof...(Is)> makeLutHelper(std::index_sequence<Is...>)
+template<typename T, class Func, std::size_t ...Is>
+constexpr std::array<T, sizeof...(Is)> makeArrayImpl(Func&& func, std::index_sequence<Is...>)
 {
-    return { emitExecutor<(int)Is>()... };
+    return { func(std::integral_constant<std::size_t, Is>{})... };
 }
 
-template <std::size_t N>
-constexpr auto makeLut()
+template<typename T, std::size_t N, class Func>
+constexpr std::array<T, N> makeArray(Func&& func)
 {
-    return makeLutHelper(std::make_index_sequence<N>{});
+    return makeArrayImpl<T>(std::forward<Func>(func), std::make_index_sequence<N>{});
 }
 
-constexpr auto lut = makeLut<0x1100>();
+constexpr auto executors = makeArray<IntExecutor, 0x1000>([&](auto x) {
+    return emitExecutor<static_cast<int>(x)>();
+});
 
 int main(int argc, char* argv[])
 {
-    for (const auto& func : lut) 
-        func(10);
-
+    for (const auto& executor : executors)
+    {
+        executor(10);
+    }
     return 0;
 }
